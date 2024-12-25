@@ -1,0 +1,10 @@
+omegaconf
+huggingface_hub==0.24.0
+opencv-python
+
+torchvision
+einops
+transformers==4.47.0
+
+IPython
+accelerate

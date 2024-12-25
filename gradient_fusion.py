@@ -23,15 +23,22 @@ def chunk_compute_mse(K_target, V_target, W, device, chunk_size=5000):
     num_chunks = (K_target.size(0) + chunk_size - 1) // chunk_size
 
     loss = 0
-
+    # loss_list = []
+    # square the loss [1 5 10]
+    eplison = 1e-10
+    # softmax
     for i in range(num_chunks):
         # Extract the current chunk
         start_idx = i * chunk_size
         end_idx = min(start_idx + chunk_size, K_target.size(0))
-        loss += F.mse_loss(
+        tmp_loss = F.mse_loss(
             F.linear(K_target[start_idx:end_idx].to(device), W),
             V_target[start_idx:end_idx].to(device)) * (end_idx - start_idx)
+        # log the loss
+        tmp_loss = torch.log(tmp_loss + eplison)
+        loss += tmp_loss
     loss /= K_target.size(0)
+    # loss = loss ** 2
     return loss
 
 
@@ -56,7 +63,7 @@ def update_quasi_newton(K_target, V_target, W, iters, device):
     K_target.requires_grad = False
     V_target.requires_grad = False
 
-    best_loss = np.Inf
+    best_loss = np.inf
     best_W = None
 
     def closure():

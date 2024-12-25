@@ -188,6 +188,19 @@ def save_and_validation(accelerator, opt, EDLoRA_trainer, val_dataloader, global
 
             del pipe
 
+from torch.distributed import init_process_group, destroy_process_group
+def init():
+    # 初始化進程組
+    init_process_group(backend="nccl")  # GPU 使用 'nccl'，CPU 使用 'gloo'
+    
+    # 獲取當前進程的 Rank 和總進程數
+    rank = torch.distributed.get_rank()
+    world_size = torch.distributed.get_world_size()
+    print(f"Rank: {rank} out of {world_size} is running.")
+    
+    # 清理進程組
+    destroy_process_group()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -195,4 +208,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     root_path = osp.abspath(osp.join(__file__, osp.pardir))
+    init()
     train(root_path, args)

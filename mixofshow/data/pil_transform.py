@@ -21,6 +21,8 @@ def build_transform(opt):
     """
     opt = deepcopy(opt)
     transform_type = opt.pop('type')
+    print(f'Building: {transform_type}')
+    print(f'With options: {opt}')
     transform = TRANSFORM_REGISTRY.get(transform_type)(**opt)
     return transform
 

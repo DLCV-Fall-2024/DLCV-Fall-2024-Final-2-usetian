@@ -2,7 +2,7 @@ import argparse
 import hashlib
 import json
 import os.path
-
+import os
 import torch
 from diffusers import DPMSolverMultistepScheduler
 from diffusers.models import T2IAdapter
@@ -138,7 +138,6 @@ if __name__ == '__main__':
         assert width_sketch == width_pose and height_sketch == height_pose, 'conditions should be same size'
     width, height = max(width_pose, width_sketch), max(height_pose, height_sketch)
     # print(f'condition size: {width}x{height}')
-    width, height = 2048, 1024
     kwargs = {
         'sketch_condition': sketch_condition,
         'keypose_condition': keypose_condition,
@@ -182,6 +181,7 @@ if __name__ == '__main__':
     save_config_path = os.path.join(save_dir, save_name.replace('.png', '.txt'))
 
     os.makedirs(save_dir, exist_ok=True)
+    # resize image to 1024*512
     image[0].save(os.path.join(save_dir, save_name))
 
     with open(save_config_path, 'w') as fw:
