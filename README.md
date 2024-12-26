@@ -1,5 +1,11 @@
 # DLCV Final Project ( Multiple Concept Personalization )
 
+# Data prepare
+```shell script=
+bash get_dataset.sh
+# put my_data into datasets/
+```
+
 # How to run your code?
 * TODO: Please provide the scripts for TAs to reproduce your results, including training and inference. For example, 
 
@@ -26,11 +32,14 @@ cd experiments/pretrained_models
 # Diffusers-version ChilloutMix
 git-lfs clone https://huggingface.co/windwhinny/chilloutmix.git
 ```
-Get the combine model and the dataset
-- TODO
-```shell script=
-bash get_dataset.sh
-bash get_model.sh
+Our checkpoints can be download here [model_checkpoints](https://drive.google.com/drive/folders/1fKEP08YXgBCP95pgMtQrSlO1_hwAETgm?usp=sharing)
+
+Our model should be put under 
+```
+experiments
+|_____ composed_edlora
+    |_______ our models folder
+
 ```
 
 
